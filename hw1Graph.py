@@ -35,7 +35,7 @@ def BFS(g,startNode,goalNode):
  queue.append(startNode)
  
  while len(queue) != 0:
-  node = queue.pop()
+  node = queue.pop(0)
   if node == goalNode:
    print "goal node found", visited
    return
@@ -44,7 +44,7 @@ def BFS(g,startNode,goalNode):
   #get all edges of current node
   e = g[node]
   e = np.sort(np.array(e))
-  
+  print "e", e
   
   for edge in e:
    if not(edge in visited):
@@ -53,6 +53,7 @@ def BFS(g,startNode,goalNode):
 
   visited.append(node)
   print "visited", visited
+  print "queue" , queue
 
 
 def DFS(g,startNode,goalNode):
@@ -82,5 +83,4 @@ def DFS(g,startNode,goalNode):
 
 
 g = buildGraph(vertices,edges)
-DFS(g,"AL","SC")
 BFS(g,"AL","SC")
