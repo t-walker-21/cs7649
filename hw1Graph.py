@@ -1,11 +1,11 @@
 import numpy as np
 
-vertices = ["AL","GA","FL","MS","SC","NC","LA","VA","TN","KY"]
+vertices = ["AL","AR","AZ","CA","CO","CT","DC","DE","FL","GA","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MO","MN","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VA","VT","WA","WV","WI","WY"]
 edges = [["AL","GA"],["AL","FL"],["AL","MS"],["AL","TN"],["GA","AL"],["GA","FL"],["GA","TN"],["GA","NC"],["GA","SC"]]
 
 
-
-
+print len(vertices)
+exit()
 """for vert in vertices:
  for edge in edges:
   if vert == edge[0]:
