@@ -9,7 +9,7 @@ edges = [["AL","GA"],["AL","FL"],["AL","MS"],["AL","TN"],
 ["CT","RI"],["CT","MA"],["CT","NY"],
 ["DC","MD"],["DC","VA"],
 ["DE","NJ"],["DE","PA"],["DE","MD"],
-["FL","AL"],["FL","GA"]
+["FL","AL"],["FL","GA"],
 ["GA","AL"],["GA","FL"],["GA","TN"],["GA","NC"],["GA","SC"],
 ["IA","NE"],["IA","SD"],["IA","MN"],["IA","WI"],["IA","IL"],["IA","MO"],
 ["ID","OR"],["ID","WA"],["ID","MT"],["ID","WY"],["ID","UT"],["ID","NV"],
@@ -22,13 +22,35 @@ edges = [["AL","GA"],["AL","FL"],["AL","MS"],["AL","TN"],
 ["MD","WV"],["MD","PA"],["MD","DE"],["MD","DC"],["MD","VA"],
 ["ME","NH"],
 ["MI","WI"],["MI","OH"],["MI","IN"],
-["MO"],[],[],[],[],[],[],[],
+["MO","KS"],["MO","NE"],["MS","AL"],
+["MT","ND"],["MT","SD"],["MT","WY"],["MT","ID"],
+["NC","GA"],["NC","TN"],["NC","VA"],["NC","SC"],
+["ND","MN"],["ND","SD"],["ND","MT"],
+["NE","WY"],["NE","SD"],["NE","IA"],["NE","MO"],["NE","KS"],["NE","CO"],
+["NH","VT"],["NH","ME"],["NH","MA"],
+["NJ","PA"],["NJ","NY"],["NJ","DE"],
+["NM","AZ"],["NM","CO"],["NM","OK"],["NM","TX"],
+["NV","CA"],["NV","OR"],["NV","ID"],["NV","UT"],["NV","AZ"],
+["NY","VT"],["NY","MA"],["NY","CT"],["NY","NJ"],["NY","PA"],
+["OH","IN"],["OH","MI"],["OH","PA"],["OH","WV"],["OH","KY"],
+["OK","NM"],["OK","CO"],["OK","KS"],["OK","MO"],["OK","AR"],["OK","TX"],
+["OR","WA"],["OR","ID"],["OR","NV"],["OR","CA"],
+["PA","OH"],["PA","NY"],["PA","NJ"],["PA","DE"],["PA","MD"],["PA","WV"],
+["RI","CT"],["RI","MA"],
+["SC","GA"],["SC","NC"],
+["SD","MT"],["SD","ND"],["SD","MN"],["SD","IA"],["SD","NE"],["SD","WY"],
+["TN","AR"],["TN","MO"],["TN","KY"],["TN","VA"],["TN","NC"],["TN","GA"],["TN","AL"],["TN","MS"],
+["TX","NM"],["TX","OK"],["TX","AR"],["TX","LA"],
+["UT","NV"],["UT","ID"],["UT","WY"],["UT","CO"],["UT","AZ"],
+["VA","TN"],["VA","KY"],["VA","WV"],["VA","MD"],["VA","DC"],["VA","NC"],
+["VT","NH"],["VT","MA"],["VT","NY"],
+["WA","OR"],["WA","ID"],
+["WV","KY"],["WV","OH"],["WV","PA"],["WV","MD"],["WA","VA"],
+["WI","MN"],["WI","MI"],["WI","IL"],["WI","IA"],
+["WY","ID"],["WY","MT"],["WY","SD"],["WY","NE"],["WY","CO"],["WY","UT"],
 ]
 
 
-
-print len(vertices)
-exit()
 """for vert in vertices:
  for edge in edges:
   if vert == edge[0]:
