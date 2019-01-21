@@ -1,4 +1,6 @@
 import numpy as np
+import sys
+import time
 
 vertices = ["AL","AR","AZ","CA","CO","CT","DC","DE","FL","GA","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MO","MN","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VA","VT","WA","WV","WI","WY"]
 edges = [["AL","GA"],["AL","FL"],["AL","MS"],["AL","TN"],
@@ -45,7 +47,7 @@ edges = [["AL","GA"],["AL","FL"],["AL","MS"],["AL","TN"],
 ["VA","TN"],["VA","KY"],["VA","WV"],["VA","MD"],["VA","DC"],["VA","NC"],
 ["VT","NH"],["VT","MA"],["VT","NY"],
 ["WA","OR"],["WA","ID"],
-["WV","KY"],["WV","OH"],["WV","PA"],["WV","MD"],["WA","VA"],
+["WV","KY"],["WV","OH"],["WV","PA"],["WV","MD"],["WV","VA"],
 ["WI","MN"],["WI","MI"],["WI","IL"],["WI","IA"],
 ["WY","ID"],["WY","MT"],["WY","SD"],["WY","NE"],["WY","CO"],["WY","UT"],
 ]
@@ -92,7 +94,7 @@ def BFS(g,startNode,goalNode):
   print "e", e
   
   for edge in e:
-   if not(edge in visited):
+   if not(edge in visited or edge in queue):
     queue.append(edge)
     
 
@@ -109,23 +111,38 @@ def DFS(g,startNode,goalNode):
     
   while len(queue) != 0:
     node = queue.pop(0)
+    print "node", node
     if node == goalNode:
       print "goal node found", visited
       return
-    print "node", node
+    
       
     #get all edges of current node
     e = g[node]
     e = np.sort(np.array(e))
-      
+    print "e-->", e  
       
     for edge in e:
-      if not(edge in visited):
+      #print edge
+      if not(edge in visited or edge in queue):
         queue.insert(0,edge)
 
     visited.append(node)
     print "visited", visited
+    print "queue", queue
 
 
 g = buildGraph(vertices,edges)
-BFS(g,"AL","SC")
+
+
+if sys.argv[3] == "b":
+ start = time.time()
+ BFS(g,sys.argv[1],sys.argv[2])
+ end = time.time()
+ print end-start, " seconds"
+
+else:
+  start = time.time()
+  DFS(g,sys.argv[1],sys.argv[2])
+  end = time.time()
+  print end-start, " seconds"
