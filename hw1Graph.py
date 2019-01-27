@@ -59,7 +59,6 @@ edges = [["AL","GA"],["AL","FL"],["AL","MS"],["AL","TN"],
    print vert,edge"""
 
 
-
 def buildGraph(vertices,edges):
  
  g = {}
@@ -79,28 +78,31 @@ def BFS(g,startNode,goalNode):
  queue = []
  visited = []
  
+
  queue.append(startNode)
  
  while len(queue) != 0:
-  node = queue.pop(0)
+  path = queue.pop(0)
+  node = path[-2:]
   if node == goalNode:
-   print "goal node found", visited
+   print "Goal state found. Path is: ", path 
    return
-  print "node", node
+  #print "node", node
   
   #get all edges of current node
   e = g[node]
   e = np.sort(np.array(e))
-  print "e", e
+  #print "e", e
   
   for edge in e:
    if not(edge in visited or edge in queue):
-    queue.append(edge)
+    queue.append(path+"-"+edge)
     
 
   visited.append(node)
-  print "visited", visited
-  print "queue" , queue
+  #print "visited", visited
+  #print "queue" , queue
+
 
 
 def DFS(g,startNode,goalNode):
@@ -110,27 +112,27 @@ def DFS(g,startNode,goalNode):
   queue.append(startNode)
     
   while len(queue) != 0:
-    node = queue.pop(0)
-    print "node", node
+    path = queue.pop(0)
+    node = path[-2:]
+    #print "node", node
     if node == goalNode:
-      print "goal node found", visited
+      print "Goal state found. Path is: ", path
       return
     
       
     #get all edges of current node
     e = g[node]
     e = np.sort(np.array(e))
-    print "e-->", e  
+    #print "e-->", e  
       
     for edge in e:
       #print edge
       if not(edge in visited or edge in queue):
-        queue.insert(0,edge)
+        queue.insert(0,path+"-"+edge)
 
     visited.append(node)
-    print "visited", visited
-    print "queue", queue
-
+    #print "visited", visited
+    #print "queue", queue
 
 g = buildGraph(vertices,edges)
 
