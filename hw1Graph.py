@@ -77,7 +77,7 @@ def buildGraph(vertices,edges):
 def BFS(g,startNode,goalNode):
  queue = []
  visited = []
- 
+ maxQSize = 0
 
  queue.append(startNode)
  
@@ -86,7 +86,7 @@ def BFS(g,startNode,goalNode):
   node = path[-2:]
   if node == goalNode:
    print "Goal state found. Path is: ", path 
-   return
+   return path, maxQSize
   print "node", node
   
   #get all edges of current node
@@ -103,10 +103,13 @@ def BFS(g,startNode,goalNode):
     visited.append(node)
   print "visited", visited
   print "queue" , queue
+  if len(queue) > maxQSize:
+    maxQSize = len(queue)
 
 def IDS(g,startNode,goalNode):
   
   depth = 1
+  maxQSize = 0
 
   while depth < len(vertices):
     print "IDS ITER: " , depth
@@ -122,7 +125,7 @@ def IDS(g,startNode,goalNode):
       print "node", node
       if node == goalNode:
         print "Goal state found. Path is: ", path
-        return
+        return path, maxQSize
       
       #get all edges of current node
       e = g[node]
@@ -137,13 +140,15 @@ def IDS(g,startNode,goalNode):
             queue.insert(0,path+"-"+edge)
             visited.append(edge)
           else:
-            print "Would have added" , edge, "but... reached this iteration's depth limit: " , depth
+            print "Would have added", path, "+", edge, "but... reached this iteration's depth limit: " , depth
 
       if not(node in visited):
         visited.append(node)
       print "visited", visited
       print "queue", queue
       print "q size-> " , len(queue)
+      if len(queue) > maxQSize:
+        maxQSize = len(queue)
 
 
     depth += 1
@@ -151,7 +156,8 @@ def IDS(g,startNode,goalNode):
 def DFS(g,startNode,goalNode):
   queue = []
   visited = []
-  
+  maxQSize = 0
+
   queue.append(startNode)
     
   while len(queue) != 0:
@@ -160,7 +166,7 @@ def DFS(g,startNode,goalNode):
     print "node", node
     if node == goalNode:
       print "Goal state found. Path is: ", path
-      return
+      return path, maxQSize
     
       
     #get all edges of current node
@@ -178,24 +184,26 @@ def DFS(g,startNode,goalNode):
       visited.append(node)
     print "visited", visited
     print "queue", queue
+    if len(queue) > maxQSize:
+      maxQSize = len(queue)
 
 g = buildGraph(vertices,edges)
 
 
 if sys.argv[3] == "b":
  start = time.time()
- BFS(g,sys.argv[1],sys.argv[2])
+ _,size = BFS(g,sys.argv[1],sys.argv[2])
  end = time.time()
- print end-start, " seconds"
+ print end-start, " seconds", " size: ", size
 
 elif sys.argv[3] == "d":
   start = time.time()
-  DFS(g,sys.argv[1],sys.argv[2])
+  _,size = DFS(g,sys.argv[1],sys.argv[2])
   end = time.time()
-  print end-start, " seconds"
+  print end-start, " seconds", " size: ", size
 
 else:
   start = time.time()
-  IDS(g,sys.argv[1],sys.argv[2])
+  _, size = IDS(g,sys.argv[1],sys.argv[2])
   end = time.time()
-  print end-start, " seconds"
+  print end-start, " seconds", " size: ", size
