@@ -92,7 +92,7 @@ def BFS(g,startNode,goalNode):
   #get all edges of current node
   e = g[node]
   e = np.sort(np.array(e))
-  print "e", e
+  print "bordering states-->", e 
   
   for edge in e:
    if not(edge in visited):
@@ -127,7 +127,7 @@ def IDS(g,startNode,goalNode):
       #get all edges of current node
       e = g[node]
       e = np.sort(np.array(e))
-      print "e-->", e 
+      print "bordering states-->", e 
       
       
       for edge in e:
@@ -136,6 +136,8 @@ def IDS(g,startNode,goalNode):
             print "pushing: " , edge
             queue.insert(0,path+"-"+edge)
             visited.append(edge)
+          else:
+            print "Would have added" , edge, "but... reached this iteration's depth limit: " , depth
 
       if not(node in visited):
         visited.append(node)
@@ -164,7 +166,7 @@ def DFS(g,startNode,goalNode):
     #get all edges of current node
     e = g[node]
     e = np.sort(np.array(e))
-    print "e-->", e  
+    print "bordering states-->", e   
       
     for edge in e:
       #print edge
