@@ -87,23 +87,64 @@ def BFS(g,startNode,goalNode):
   if node == goalNode:
    print "Goal state found. Path is: ", path 
    return
-  #print "node", node
+  print "node", node
   
   #get all edges of current node
   e = g[node]
   e = np.sort(np.array(e))
-  #print "e", e
+  print "e", e
   
   for edge in e:
-   if not(edge in visited or edge in queue):
+   if not(edge in visited):
     queue.append(path+"-"+edge)
+    visited.append(edge)
     
+  if not(node in visited):
+    visited.append(node)
+  print "visited", visited
+  print "queue" , queue
 
-  visited.append(node)
-  #print "visited", visited
-  #print "queue" , queue
+def IDS(g,startNode,goalNode):
+  
+  depth = 1
+
+  while depth < len(vertices):
+    print "IDS ITER: " , depth
+    print "\n"
+    queue = []
+    visited = []
+    
+    queue.append(startNode)
+    
+    while len(queue) != 0:
+      path = queue.pop(0)
+      node = path[-2:]
+      print "node", node
+      if node == goalNode:
+        print "Goal state found. Path is: ", path
+        return
+      
+      #get all edges of current node
+      e = g[node]
+      e = np.sort(np.array(e))
+      print "e-->", e 
+      
+      
+      for edge in e:
+        if not(edge in visited):
+          if (len(path.split("-")) + 1 <= depth):
+            print "pushing: " , edge
+            queue.insert(0,path+"-"+edge)
+            visited.append(edge)
+
+      if not(node in visited):
+        visited.append(node)
+      print "visited", visited
+      print "queue", queue
+      print "q size-> " , len(queue)
 
 
+    depth += 1
 
 def DFS(g,startNode,goalNode):
   queue = []
@@ -114,7 +155,7 @@ def DFS(g,startNode,goalNode):
   while len(queue) != 0:
     path = queue.pop(0)
     node = path[-2:]
-    #print "node", node
+    print "node", node
     if node == goalNode:
       print "Goal state found. Path is: ", path
       return
@@ -123,16 +164,18 @@ def DFS(g,startNode,goalNode):
     #get all edges of current node
     e = g[node]
     e = np.sort(np.array(e))
-    #print "e-->", e  
+    print "e-->", e  
       
     for edge in e:
       #print edge
-      if not(edge in visited or edge in queue):
+      if not(edge in visited):
         queue.insert(0,path+"-"+edge)
-
-    visited.append(node)
-    #print "visited", visited
-    #print "queue", queue
+        visited.append(edge)
+    
+    if not(node in visited):
+      visited.append(node)
+    print "visited", visited
+    print "queue", queue
 
 g = buildGraph(vertices,edges)
 
@@ -143,8 +186,14 @@ if sys.argv[3] == "b":
  end = time.time()
  print end-start, " seconds"
 
-else:
+elif sys.argv[3] == "d":
   start = time.time()
   DFS(g,sys.argv[1],sys.argv[2])
+  end = time.time()
+  print end-start, " seconds"
+
+else:
+  start = time.time()
+  IDS(g,sys.argv[1],sys.argv[2])
   end = time.time()
   print end-start, " seconds"
