@@ -84,7 +84,16 @@ def checkConsistency(queens):
     for q in queens:
         queenCoords.append((count,int(q)))
         count += 1
-    print queenCoords
+    #print queenCoords
+
+    #check constraints for each queen coordinate
+    
+    index = 0
+    for q in queenCoords:
+        tempList = queenCoords.remove(index) #first make a list of coordinates without the queen we're checking
+
+        #check same row
+        
 
 
 
@@ -147,5 +156,7 @@ num_queens = 4
 
 grid = np.zeros([num_queens,num_queens])
 
-checkConsistency('0123')
+pieces = '0023'
+checkConsistency(pieces)
+visualizeQueens(pieces)
 #standardSearch(grid)
