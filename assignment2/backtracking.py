@@ -8,6 +8,8 @@ num_queens = int(sys.argv[1])
 
 def checkConsistency(queens): #this is the function I made to implement "consistent" in lecture_6.pdf - slide 35
     #enumerate queen coordinates
+        
+
     queenCoords = []
     count = 0
     for q in queens:
@@ -56,7 +58,8 @@ def SelectValue(Xi,domain):
     while (len(tempDomain) != 0): #while domain D'i is not empty
         a = tempDomain.pop(0) #select an arbitrary element a E D'i and remove from D'i
         print "checking consistency of: " , a , "against: ", Xi
-        if (checkConsistency(Xi+a)): #if consistent(Ai-1, Xi=a)
+        temp = Xi + [a]
+        if (checkConsistency(temp)): #if consistent(Ai-1, Xi=a)
             print a , " consistent with: " , Xi
             return a
     return None #no consistent value
@@ -66,7 +69,7 @@ def SelectValue(Xi,domain):
 def backtracking():
     #initialize variable counter, assignments
     i = 0
-    a = ''
+    a = []
 
     #copy domain of first variable (domain for all vars are the same)
     domain = []
@@ -88,10 +91,13 @@ def backtracking():
 
     while (i >= 0 and i < num_queens):
         print "loop top i: ", i,  " domain: " , domains[i]
-        x = SelectValue(a,domains[i]) #add to assignments Ai
+        x = SelectValue(copy.copy(a),domains[i]) #add to assignments Ai
         print "i: " , i, " x: " , x 
 
-        if x == None: #no value was returned
+        if x == None : #no value was returned
+            if i == 0: #at this point, we've exhausted all posible options for the first queen, no solution
+                i -= 1
+                break
             print "inconsistent exhausted, backtracking and removing " , a[-1]
             domains[i-1].remove(a[-1]) #this assignment lead to an inconsistency, remove it from Domain Di to prevent algo from looping infinitely. 
             for j in range(i,len(domains)): #must restore domains because we'll try again at a different assignment
@@ -101,7 +107,7 @@ def backtracking():
             
 
         else: #else step forward
-            a += x #add to assignments Ai also?
+            a.append(x) #add to assignments Ai also?
             i += 1
             #here domain copying isn't really needed since all domains are the same
 
