@@ -59,7 +59,7 @@ def standardSearch(grid):
     assignmentCount = 0 #var to track if all possible vars have been assigned
 
     for i in range(0,num_queens):
-            queue.append(str(i))
+            queue.append([str(i)])
     
     
            
@@ -87,20 +87,11 @@ def standardSearch(grid):
         
         #queens.append(currState)
         #print 'currState', currState
+
         
-
-
-        """if (len(queens) == len(grid)): #all queens have been assigned, check constraints to see if these assignments fulfill CSP
-            visualizeQueens(queens)
-
-            print "checking consistency"
-            queens.pop()
-            assignmentCount -= 1
-
-        neighs = generateNeighbors(currState,len(grid))"""
         neighs = []
         for i in range(0,num_queens):
-            neighs.append(str(i))
+            neighs.append([str(i)])
     
 
         for n in neighs:
