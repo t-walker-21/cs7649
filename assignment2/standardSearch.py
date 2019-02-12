@@ -76,6 +76,7 @@ def standardSearch(grid):
                 print "solution found: " , path
                 visualizeQueens(path)
                 solutionCount += 1
+                return solutionCount
                 continue
             else:
                 #print "no path found"
