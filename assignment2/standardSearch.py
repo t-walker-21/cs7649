@@ -7,66 +7,6 @@ def checkLen(queens):
     return len(queens.split(','))
 
 
-def DFS(grid):
-  queue = []
-  visited = []
-
-  queue.append(startNode)
-    
-  while len(queue) != 0:
-    path = queue.pop(0)
-    node = path[-2:]
-    print "node", node
-    if node == goalNode:
-      print "Goal state found. Path is: ", path
-      return path, maxQSize
-    
-      
-    #get all edges of current node
-    e = g[node]
-    e = np.sort(np.array(e))
-    print "bordering states-->", e   
-      
-    for edge in e:
-      #print edge
-      if not(edge in visited):
-        queue.insert(0,path+"-"+edge)
-        visited.append(edge)
-    
-    if not(node in visited):
-      visited.append(node)
-    print "visited", visited
-    print "queue", queue
-    if len(queue) > maxQSize:
-      maxQSize = len(queue)
-
-
-def generateNeighbors(state,maxLen):#helper function to generate all possible neighbors of a state
-    neighbors = []
-
-
-    #grid[r][c]
-
-    
-
-    if (state[0] != 0): #there exists a neighbor above this state
-        neighbors.append((state[0]-1,state[1]))
-        #print "trueUp"
-
-    if (state[0] != maxLen-1): #there exists a neighbor below this state
-        neighbors.append((state[0]+1,state[1]))
-        #print "trueDown"
-
-    if (state[1] != 0): #there exists a neighbor left of this state
-        neighbors.append((state[0],state[1]-1))
-        #print "trueLeft"
-    
-    if (state[1] != maxLen-1): #there exists a neighbor right of this state
-        neighbors.append((state[0],state[1]+1))
-        #print "trueRight"
-
-    return neighbors
-
 def visualizeQueens(queens):
     tempGrid = np.zeros([len(queens),len(queens)])
     
