@@ -11,9 +11,9 @@ tFC = np.load("forwardChecking.npy")
 #plot data
 plt.plot(tSS,label='SS')
 plt.plot(tBT,label='BT')
-plt.plot(tFC,label='FC')
+plt.plot(tFC,label='FC') #the time seems to be equal to BT. plots overlap, but both are being displayed
 plt.title('Time of Different Algos')
 plt.xlabel('Num of Queens')
-plt.ylable('Logarithmic Computational Time')
+plt.ylabel('Logarithmic Computational Time')
 plt.yscale("symlog")
 plt.show()
