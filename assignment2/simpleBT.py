@@ -2,6 +2,9 @@ import numpy as np
 import time
 import copy
 import sys
+from matplotlib import pyplot as plt
+TIME_LIM = 10 * 60  
+
 
 def checkLen(queens):
     return len(queens.split(','))
@@ -16,6 +19,9 @@ def visualizeQueens(queens):
         count += 1
     
     print tempGrid
+
+
+
 
 def checkConsistency(queens):
     #enumerate queen coordinates
@@ -39,7 +45,7 @@ def checkConsistency(queens):
         
         #check same row and column and diagonal
         for n in tempList:
-            if (n[0] == q[0] or n[1] == q[1] or (abs(n[0] - q[0]) == abs(n[1] - q[1]))) : #queen lies in a common row or column or diag
+            if (n[1] == q[1] or (abs(n[0] - q[0]) == abs(n[1] - q[1]))) : #queen lies in a common row or column or diag
                 return False #fails to satisfy CSP
 
 
@@ -49,6 +55,7 @@ def checkConsistency(queens):
 
 
 def backtracking(grid):
+    start = time.time()
 
     solutionCount = 0
     queens = []
@@ -57,28 +64,38 @@ def backtracking(grid):
     #grid[0][0] = 1 #start search at top left (0,0) position
     #state = '0' #this should work better than ^
     assignmentCount = 0 #var to track if all possible vars have been assigned
-
+    checkCount = 0
+    neighs = []
+    num_queens = len(grid)
     for i in range(0,num_queens):
-            queue.append([str(i)])
+        neighs.append([str(i)])
+        queue.append([str(i)])
+
+    
     
     
            
     
     while (len(queue) != 0):
+
+        if (time.time() - start > TIME_LIM):
+            return -1
         
         path = queue.pop(0)
         #print path
+        #visualizeQueens(path)
 
         #print "checking: ", path
                
+        checkCount += 1
         if checkConsistency(path):
             #print "path: " , path , " is consistent"
             
             if len(path) == num_queens:
-                print "solution found: " , path
+                #print "solution found: " , path
                 visualizeQueens(path)
-                solutionCount += 1
-                return solutionCount
+                #solutionCount += 1
+                return time.time() - start
             
         else: #backtrack
             continue
@@ -92,10 +109,11 @@ def backtracking(grid):
         #print 'currState', currState
 
         
-        neighs = []
-        for i in range(0,num_queens):
-            neighs.append([str(i)])
-    
+        
+        #neighs = []
+        #for i in range(0,num_queens):
+            #neighs.append([str(i)])
+            
 
         for n in neighs:
             #if not(n in visited):
@@ -113,11 +131,19 @@ def backtracking(grid):
             
 
 
-num_queens = int(sys.argv[1])
 
-grid = np.zeros([num_queens,num_queens])
+times = []
+for qs in range(0,100):
+    grid = np.zeros([qs,qs])
+    t =  backtracking(grid)
+    print t
+    if (t == -1):
+        #plot times and exit
+        for rem in range(qs, 100):
+            times.append(TIME_LIM)
+        plt.plot(times)
+        #plt.show()
+        np.save("backtracking.npy",times)
+        exit()
 
-#pieces = '20314'
-#print "CSP satisfied? --> ", checkConsistency(pieces)
-#visualizeQueens(pieces)
-print "found: " , backtracking(grid), " solutions"
+    times.append(t)

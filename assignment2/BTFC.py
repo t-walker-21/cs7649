@@ -2,9 +2,8 @@ import numpy as np
 import time
 import copy
 import sys
-from matplotlib import pyplot as plt
-
 TIME_LIM = 10 * 60 
+from matplotlib import pyplot as plt
 
 def checkLen(queens):
     return len(queens.split(','))
@@ -19,6 +18,7 @@ def visualizeQueens(queens):
         count += 1
     
     print tempGrid
+
 
 def checkConsistency(queens):
     #enumerate queen coordinates
@@ -40,7 +40,7 @@ def checkConsistency(queens):
         #print tempList
 
         
-        #check same row and diagonal
+        #check same row and column and diagonal
         for n in tempList:
             if (n[1] == q[1] or (abs(n[0] - q[0]) == abs(n[1] - q[1]))) : #queen lies in a common row or column or diag
                 return False #fails to satisfy CSP
@@ -51,17 +51,19 @@ def checkConsistency(queens):
     return True
 
 
-def standardSearch(grid):
+
+def backtracking(grid):
     start = time.time()
-    num_queens = len(grid)
 
     solutionCount = 0
     queens = []
     queue = []
     visited = []
+    checkCount = 0
     #grid[0][0] = 1 #start search at top left (0,0) position
     #state = '0' #this should work better than ^
     assignmentCount = 0 #var to track if all possible vars have been assigned
+    num_queens = len(grid)
 
     for i in range(0,num_queens):
             queue.append([str(i)])
@@ -70,30 +72,52 @@ def standardSearch(grid):
            
     
     while (len(queue) != 0):
+        check = time.time()
 
-        timeNow = time.time()
-        if (timeNow-start > TIME_LIM):
-            print "time limit: " , TIME_LIM , " exceeded"
+        if (check-start > TIME_LIM):
             return -1
         
         path = queue.pop(0)
-        #print path
+        #print "path: ", path
+        
 
-        if (len(path) == num_queens):
-            #print "checking: ", path
-               
-            if checkConsistency(path):
-                print "solution found: " , path
-                end = time.time()
-                #print end-start, " seconds"
-                visualizeQueens(path)
-                
-                return end-start
-                
-            else:
-                #print "no path found"
-                continue
+        if len(path) == num_queens:
+            #solutionCount += 1
+            visualizeQueens(path)
+
+            return time.time()-start
+        #print "checking: ", path
+
+        #perform initial pruning
+
+
+        
+        before = len(queue)
+        neighs = [] #domain for next column
+        for i in range(0,num_queens):
             
+            checkCount += 1
+            if (checkConsistency(path+[str(i)])): #only add to domain of neighboring assignment if it is consistent
+                #neighs.append([str(i)])
+                queue.insert(0,path+[str(i)])
+        
+        if len(queue) != before:
+            continue
+        #if len(neighs) == 0: #we can't add any more valid queens
+            #print "pruned all possible positions, backtracking"
+            #continue #backtrack
+        
+            
+    
+
+        #for n in neighs:
+            #if not(n in visited):
+            #queue.insert(0,path+n)
+
+        #print "queue" , queue
+        #print "prepruned " , num_queens - len(neighs) , " queens"
+               
+           
             
             
         
@@ -101,14 +125,7 @@ def standardSearch(grid):
         #print 'currState', currState
 
         
-        neighs = []
-        for i in range(0,num_queens):
-            neighs.append([str(i)])
-    
-
-        for n in neighs:
-            #if not(n in visited):
-            queue.insert(0,path+n)
+        
                 #visited.append(currState+n)
 
         #print "queens" , queens
@@ -124,14 +141,10 @@ def standardSearch(grid):
 
 
 
-
-#pieces = '20314'
-#print "CSP satisfied? --> ", checkConsistency(pieces)
-#visualizeQueens(pieces)
 times = []
 for qs in range(0,100):
     grid = np.zeros([qs,qs])
-    t =  standardSearch(grid)
+    t =  backtracking(grid)
     print t
     if (t == -1):
         #plot times and exit
@@ -139,10 +152,7 @@ for qs in range(0,100):
             times.append(TIME_LIM)
         plt.plot(times)
         #plt.show()
-        np.save("standardSearch.npy",times)
+        np.save("forwardChecking.npy",times)
         exit()
 
     times.append(t)
-
-
-
