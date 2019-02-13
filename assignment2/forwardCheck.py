@@ -58,89 +58,53 @@ def backtracking(grid):
     solutionCount = 0
     queens = []
     queue = []
-    visited = []
-    checkCount = 0
-    #grid[0][0] = 1 #start search at top left (0,0) position
-    #state = '0' #this should work better than ^
-    assignmentCount = 0 #var to track if all possible vars have been assigned
     num_queens = len(grid)
 
-    for i in range(0,num_queens):
+    for i in range(0,num_queens): #i can load up queue initially without worry for inconsistent states
             queue.append([str(i)])
     
     
            
     
-    while (len(queue) != 0):
+    while (len(queue) != 0): 
         check = time.time()
 
         if (check-start > TIME_LIM):
             return -1
         
         path = queue.pop(0)
-        #print "path: ", path
+       
         
 
-        if len(path) == num_queens:
+        if len(path) == num_queens: #if path length == num queens, we're done
             #solutionCount += 1
             visualizeQueens(path)
 
             return time.time()-start
-        #print "checking: ", path
+        
 
         #perform initial pruning
-
-
         
-        before = len(queue)
-        neighs = [] #domain for next column
+        neighs = [] #domain for next column (variable assignment)
         for i in range(0,num_queens):
             
-            checkCount += 1
+            
             if (checkConsistency(path+[str(i)])): #only add to domain of neighboring assignment if it is consistent
-                #neighs.append([str(i)])
                 queue.insert(0,path+[str(i)])
         
-        if len(queue) != before:
-            continue
-        #if len(neighs) == 0: #we can't add any more valid queens
+        if len(neighs) == 0: #we can't add any more valid queens
             #print "pruned all possible positions, backtracking"
-            #continue #backtrack
+            continue #backtrack
         
             
-    
-
-        #for n in neighs:
-            #if not(n in visited):
-            #queue.insert(0,path+n)
-
-        #print "queue" , queue
-        #print "prepruned " , num_queens - len(neighs) , " queens"
                
-           
-            
-            
-        
-        #queens.append(currState)
-        #print 'currState', currState
-
-        
-        
-                #visited.append(currState+n)
-
-        #print "queens" , queens
-        #print "queue" , queue
-        #print path
-        
-        
-        #if not(currState in visited):
-            #visited.append(currState)        
+               
     return solutionCount
             
 
 
 
-
+#experimentation
 times = []
 for qs in range(0,100):
     grid = np.zeros([qs,qs])

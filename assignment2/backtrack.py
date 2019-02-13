@@ -6,11 +6,11 @@ from matplotlib import pyplot as plt
 TIME_LIM = 10 * 60  
 
 
-def checkLen(queens):
+def checkLen(queens): #check solution size
     return len(queens.split(','))
 
 
-def visualizeQueens(queens):
+def visualizeQueens(queens): #debug visualization
     tempGrid = np.zeros([len(queens),len(queens)])
     
     count = 0
@@ -23,7 +23,7 @@ def visualizeQueens(queens):
 
 
 
-def checkConsistency(queens):
+def checkConsistency(queens): #check valid queen placement
     #enumerate queen coordinates
     queenCoords = []
     count = 0
@@ -60,11 +60,7 @@ def backtracking(grid):
     solutionCount = 0
     queens = []
     queue = []
-    visited = []
-    #grid[0][0] = 1 #start search at top left (0,0) position
-    #state = '0' #this should work better than ^
-    assignmentCount = 0 #var to track if all possible vars have been assigned
-    checkCount = 0
+   
     neighs = []
     num_queens = len(grid)
     for i in range(0,num_queens):
@@ -81,18 +77,14 @@ def backtracking(grid):
         if (time.time() - start > TIME_LIM):
             return -1
         
-        path = queue.pop(0)
-        #print path
-        #visualizeQueens(path)
+        path = queue.pop(0) #first get a new position
 
-        #print "checking: ", path
                
-        checkCount += 1
-        if checkConsistency(path):
-            #print "path: " , path , " is consistent"
+        
+        if checkConsistency(path): #then check for consistency as in lecture slides (map color example)
             
-            if len(path) == num_queens:
-                #print "solution found: " , path
+            if len(path) == num_queens: #if path size is number of queens, we're done
+                
                 visualizeQueens(path)
                 #solutionCount += 1
                 return time.time() - start
@@ -104,34 +96,17 @@ def backtracking(grid):
             
             
             
-        
-        #queens.append(currState)
-        #print 'currState', currState
-
-        
-        
-        #neighs = []
-        #for i in range(0,num_queens):
-            #neighs.append([str(i)])
+    
             
 
         for n in neighs:
-            #if not(n in visited):
             queue.insert(0,path+n)
-                #visited.append(currState+n)
-
-        #print "queens" , queens
-        #print "queue" , queue
-        #print path
-        
-        
-        #if not(currState in visited):
-            #visited.append(currState)        
+                      
     return solutionCount
             
 
 
-
+#perform experiment
 times = []
 for qs in range(0,100):
     grid = np.zeros([qs,qs])

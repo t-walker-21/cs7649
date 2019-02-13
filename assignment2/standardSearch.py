@@ -1,16 +1,16 @@
 import numpy as np
 import time
-import copy
+import copy #make copies of domains
 import sys
 from matplotlib import pyplot as plt
 
 TIME_LIM = 10 * 60 
 
-def checkLen(queens):
+def checkLen(queens): #how long is the current solution?
     return len(queens.split(','))
 
 
-def visualizeQueens(queens):
+def visualizeQueens(queens): #visualization function for debugging rules
     tempGrid = np.zeros([len(queens),len(queens)])
     
     count = 0
@@ -20,7 +20,7 @@ def visualizeQueens(queens):
     
     print tempGrid
 
-def checkConsistency(queens):
+def checkConsistency(queens): #encorce consistency
     #enumerate queen coordinates
     queenCoords = []
     count = 0
@@ -51,18 +51,16 @@ def checkConsistency(queens):
     return True
 
 
-def standardSearch(grid):
+def standardSearch(grid): #algo
     start = time.time()
-    num_queens = len(grid)
+    num_queens = len(grid) #create grid
 
     solutionCount = 0
     queens = []
     queue = []
-    visited = []
-    #grid[0][0] = 1 #start search at top left (0,0) position
-    #state = '0' #this should work better than ^
-    assignmentCount = 0 #var to track if all possible vars have been assigned
-
+    
+        
+    #start search at top left (0,0) position
     for i in range(0,num_queens):
             queue.append([str(i)])
     
@@ -74,15 +72,15 @@ def standardSearch(grid):
         timeNow = time.time()
         if (timeNow-start > TIME_LIM):
             print "time limit: " , TIME_LIM , " exceeded"
-            return -1
+            return -1 # -1 denotes time limit has been reached
         
         path = queue.pop(0)
-        #print path
+        #enqueue path (queen positions)
 
-        if (len(path) == num_queens):
-            #print "checking: ", path
+        if (len(path) == num_queens): #then check is path is valid
+            
                
-            if checkConsistency(path):
+            if checkConsistency(path): # checking for validity
                 print "solution found: " , path
                 end = time.time()
                 #print end-start, " seconds"
@@ -91,33 +89,22 @@ def standardSearch(grid):
                 return end-start
                 
             else:
-                #print "no path found"
+                #keep searching
                 continue
             
             
-            
-        
-        #queens.append(currState)
-        #print 'currState', currState
 
         
-        neighs = []
+        neighs = [] #loading up domain for next variable
         for i in range(0,num_queens):
             neighs.append([str(i)])
     
 
-        for n in neighs:
-            #if not(n in visited):
+        for n in neighs: #place in queue depth-first style
             queue.insert(0,path+n)
-                #visited.append(currState+n)
+                
 
-        #print "queens" , queens
-        #print "queue" , queue
-        #print path
         
-        
-        #if not(currState in visited):
-            #visited.append(currState)        
     return solutionCount
             
 
@@ -128,6 +115,9 @@ def standardSearch(grid):
 #pieces = '20314'
 #print "CSP satisfied? --> ", checkConsistency(pieces)
 #visualizeQueens(pieces)
+
+
+#perform experiment
 times = []
 for qs in range(0,100):
     grid = np.zeros([qs,qs])
@@ -139,7 +129,7 @@ for qs in range(0,100):
             times.append(TIME_LIM)
         plt.plot(times)
         #plt.show()
-        np.save("standardSearch.npy",times)
+        np.save("standardSearch.npy",times) #save data
         exit()
 
     times.append(t)
