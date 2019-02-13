@@ -1,0 +1,1 @@
+Just run all three search scripts until they stop. After that run timePlot.py to get a graph of the algos time w.r.t. number of queens.
